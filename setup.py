@@ -12,10 +12,15 @@ def version():
             return ver.replace("'", '').strip()
 
 
+with open('README.md') as fp:
+    long_desc = fp.read()
+
+
 setup(
     name='ingress',
     version=version(),
     description='A back door to servers.',
+    long_description=long_desc,
     author='Miki Tebeka',
     author_email='miki.tebeka@gmail.com',
     url='https://github.com/tebeka/ingress',
@@ -24,4 +29,5 @@ setup(
     zip_safe=True,
     py_modules=['ingress'],
     install_requires=['six'],
+    tests_require=['pytest', 'flake8'],
 )

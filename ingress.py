@@ -8,7 +8,7 @@ This one uses only modules found in the standard library.
 '''
 
 __author__ = 'Miki Tebeka <miki.tebeka@gmail.com>'
-__version__ = '0.3.1'
+__version__ = '0.3.2'
 
 from contextlib import contextmanager
 from six import b, exec_, string_types
@@ -45,6 +45,7 @@ class PyHandler(socksrv.StreamRequestHandler):
     password = None
     env = {}
     redirect = False
+    prompt = '>>> '
 
     def handle(self):
         env = self.env.copy()
@@ -56,7 +57,7 @@ class PyHandler(socksrv.StreamRequestHandler):
 
         while True:
             try:
-                self.wfile.write(b('>>> '))
+                self.wfile.write(b(self.prompt))
                 self.wfile.flush()
                 expr = self.rfile.readline().rstrip()
                 if expr == EOF:
@@ -114,6 +115,7 @@ def server_thread(env, port, password=None, redirect=False, host='localhost'):
     # Create a new handler class for this with it's own env
     class Handler(PyHandler):
         pass
+
     Handler.env = env
     Handler.password = password
     Handler.redirect = redirect
@@ -140,7 +142,7 @@ def main(argv=None):
 
     parser = ArgumentParser(description='Run demo server.')
     parser.add_argument('-p', '--port', help='port to listen',
-                        default=DEFAULT_PORT)
+                        default=DEFAULT_PORT, type=int)
     parser.add_argument('-l', '--login', help='login password',
                         default=None)
     parser.add_argument('-r', '--redirect', help='redirect stdout',
