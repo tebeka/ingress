@@ -1,5 +1,7 @@
 # Ingress
 
+[![Build Status](https://travis-ci.org/tebeka/ingress.svg?branch=master)](https://travis-ci.org/tebeka/ingress)
+
 Ingress is a Python REPL over the network to your application (very much like
 Twisted manhole).
 
