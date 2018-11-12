@@ -8,7 +8,7 @@ This one uses only modules found in the standard library.
 '''
 
 __author__ = 'Miki Tebeka <miki.tebeka@gmail.com>'
-__version__ = '0.3.0'
+__version__ = '0.3.1'
 
 from contextlib import contextmanager
 from six import b, exec_, string_types
