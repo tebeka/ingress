@@ -20,6 +20,7 @@ import sys
 
 EOF = chr(4)
 DEFAULT_PORT = 9998
+QUIT = 'quit()'
 
 
 @contextmanager
@@ -47,7 +48,8 @@ class PyHandler(socksrv.StreamRequestHandler):
 
     def handle(self):
         env = self.env.copy()
-        self.wfile.write(b('Welcome to ingress (type "exit()" to exit)\n'))
+        welcome = 'Welcome to ingress (type "{}" to exit)\n'.format(QUIT)
+        self.wfile.write(b(welcome))
 
         if not self.login():
             return
@@ -55,23 +57,33 @@ class PyHandler(socksrv.StreamRequestHandler):
         while True:
             try:
                 self.wfile.write(b('>>> '))
+                self.wfile.flush()
                 expr = self.rfile.readline().rstrip()
                 if expr == EOF:
+                    return
+
+                if not isinstance(expr, string_types):
+                    expr = expr.decode('utf-8')
+
+                if expr == QUIT:
+                    self.request.close()
                     return
 
                 out = Writer(self.wfile) if self.redirect else sys.stdout
                 with redirect_stdout(out):
                     try:
                         value = eval(expr, globals(), env)
-                        self.wfile.write(format(value) + '\n')
+                        out = format(value) + '\n'
+                        self.wfile.write(b(out))
                         self.wfile.flush()
-                    except:
+                    except Exception:
                         exec_(expr, env)
             except (EOFError, SystemExit, socket.error):
                 return
             except Exception:
                 error = format_exc()
                 self.wfile.write(b(error))
+                self.wfile.flush()
 
     def finish(self):
         try:
