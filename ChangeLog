@@ -1,0 +1,12 @@
+2013-08-26 version 0.3.0
+    * --host (issue #4, thanks C. Toth)
+
+2013-03-27 version 0.2.0
+    * --redirect (issue #2, thanks C. Toth)
+    * start of python 3 support
+
+2011-06-24 version 0.1.1
+    * Play nice when client closes connection
+
+2011-06-24 version 0.1.0
+    * Initial version
