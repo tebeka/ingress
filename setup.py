@@ -21,6 +21,7 @@ setup(
     version=version(),
     description='A back door to servers.',
     long_description=long_desc,
+    long_description_content_type='text/markdown',
     author='Miki Tebeka',
     author_email='miki.tebeka@gmail.com',
     url='https://github.com/tebeka/ingress',

@@ -2,6 +2,8 @@
     * --port as int
     * Added test
     * Fixed issues with sending output to client
+    * Pipfile
+    * travis builds
 
 2013-08-26 version 0.3.0
     * --host (issue #4, thanks C. Toth)
