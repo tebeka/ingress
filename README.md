@@ -1,6 +1,6 @@
 # Ingress
 
-[![Build Status](https://travis-ci.org/tebeka/ingress.svg?branch=master)](https://travis-ci.org/tebeka/ingress)
+[![CircleCI](https://circleci.com/gh/tebeka/ingress.svg?style=svg)](https://circleci.com/gh/tebeka/ingress)
 
 Ingress is a pure Python, no dependencies REPL (interactive prompt) over the
 network to your application (very much like [Twisted
