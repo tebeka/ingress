@@ -15,3 +15,6 @@ upload-pypi:
 travis:
 	python -m pip install -r dev-requirements.txt
 	$(MAKE) test
+
+circleci:
+	docker build -f Dockerfile.test .
