@@ -1,10 +1,7 @@
 from socket import error as SocketError
 from socket import socket
-from subprocess import Popen
-from sys import executable
 from time import sleep, time
-
-import pytest
+import re
 
 import ingress
 
@@ -23,32 +20,64 @@ def wait_for_server(port, timeout=10):
         sock = socket()
         try:
             sock.connect(('localhost', port))
-            sock.close()
-            return True
+            return sock
         except SocketError:
             sleep(0.1)
 
-    return False
+    return None
 
 
-@pytest.fixture(scope='function')
-def server_port():
+def start_server(passwd=None):
     port = free_port()
-    pipe = Popen([executable, 'ingress.py', '-p', str(port)])
+    env = {}
+    ingress.install(('localhost', port), env, passwd)
     assert wait_for_server(port), 'server did not start'
-    yield port
-    pipe.kill()
+    return Client(port)
 
 
-def test_ingress(server_port):
-    sock = socket()
-    sock.connect(('localhost', server_port))
-    rfile, wfile = sock.makefile('r'), sock.makefile('w')
-    header = rfile.readline()
+class Client:
+    def __init__(self, port):
+        sock = wait_for_server(port)
+        self.rfile, self.wfile = sock.makefile('r'), sock.makefile('w')
+
+    def write(self, msg):
+        self.wfile.write(f'{msg}\n')
+        self.wfile.flush()
+
+    def read(self, prefix_len=0):
+        out = self.rfile.readline().strip()
+        prefix_len += len(ingress.PyHandler.prompt)
+        return out[prefix_len:]
+
+
+def test_ingress():
+    c = start_server()
+    header = c.read()
     assert 'ingress' in header, 'bad header'
 
-    wfile.write('1 + 1\n')
-    wfile.flush()
-    out = rfile.readline().strip()
-    out = out[len(ingress.PyHandler.prompt):]
+    c.write('1 + 1')
+    out = c.read()
     assert out == '2', 'bad output'
+
+
+def test_password():
+    passwd = 's3cr3t'
+    c = start_server(passwd)
+    c.read()  # Skip header
+    c.write(f'{passwd}')
+
+    c.write('1 + 1')
+    out = c.read(len('Password: '))
+    assert out == '2', 'bad output'
+
+
+def test_exec():
+    c = start_server()
+    c.read()  # skip header
+
+    key, val = 'zaphod', 12
+    c.write(f'{key} = {val}')
+    c.write(key)
+    # FIXME: Why the prompt?
+    out = re.sub('^>* ', '', c.read())
+    assert out == str(val), 'bad value'

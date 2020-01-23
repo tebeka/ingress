@@ -3,8 +3,8 @@ all:
 
 test:
 	find . -name '*.pyc' -exec rm {} \;
-	pipenv run flake8 ingress.py test_ingress.py
-	pipenv run python -m pytest -v test_ingress.py
+	python -m flake8 ingress.py test_ingress.py
+	python -m pytest -v test_ingress.py
 
 upload-pypi:
 	-rm -f dist/ingress*
@@ -13,6 +13,5 @@ upload-pypi:
 	twine upload dist/*
 
 travis:
-	pip install pipenv
-	pipenv sync --dev
+	python -m pip install -r dev-requirements.txt
 	$(MAKE) test
