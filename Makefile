@@ -1,18 +1,26 @@
 all:
 	$(error pick a target)
 
+.PHONY: test
 test:
-	find . -name '*.pyc' -exec rm {} \;
-	pipenv run flake8 ingress.py test_ingress.py
-	pipenv run python -m pytest -v test_ingress.py
+	find . -name '*.pyc' -not -path '*/venv/*' -exec rm {} \;
+	./venv/bin/python -m flake8 ingress.py test_ingress.py
+	./venv/bin/python -m pytest -v test_ingress.py
 
+.PHONY: upload-pypi
 upload-pypi:
 	-rm -f dist/ingress*
-	python setup.py sdist
-	python setup.py bdist_wheel
-	twine upload dist/*
+	./venv/bin/python setup.py sdist
+	./venv/bin/python setup.py bdist_wheel
+	./venv/bin/twine upload dist/*
 
+venv:
+	virtualenv venv
+	./venv/bin/python -m pip install -r dev-requirements.txt
+
+
+.PHONY: travis
 travis:
-	pip install pipenv
-	pipenv sync --dev
+	virtualenv venv
+	./venv/bin/python -m pip install -r dev-requirements.txt
 	$(MAKE) test
