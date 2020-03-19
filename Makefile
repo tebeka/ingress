@@ -12,7 +12,8 @@ upload-pypi:
 	python setup.py bdist_wheel
 	twine upload dist/*
 
-travis:
+ci:
+	python -m pip install --upgrade pip
 	python -m pip install -r dev-requirements.txt
 	$(MAKE) test
 
