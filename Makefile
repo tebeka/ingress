@@ -4,6 +4,7 @@ all:
 test:
 	find . -name '*.pyc' -exec rm {} \;
 	python -m flake8 ingress.py test_ingress.py
+	bandit ingress.py
 	python -m pytest -v test_ingress.py
 
 upload-pypi:

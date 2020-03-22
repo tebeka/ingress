@@ -48,11 +48,11 @@ class PyHandler(socketserver.StreamRequestHandler):
 
                 with redirect_stdout(self), redirect_stderr(self):
                     try:
-                        value = eval(expr, globals(), env)
+                        value = eval(expr, globals(), env)  # nosec
                         out = format(value) + '\n'
                         self.write(out)
                     except Exception:
-                        exec(expr, env)
+                        exec(expr, env)  # nosec
             except (EOFError, SystemExit, socket.error):
                 return
             except Exception:
