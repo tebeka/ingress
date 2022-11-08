@@ -12,11 +12,3 @@ upload-pypi:
 	python setup.py sdist
 	python setup.py bdist_wheel
 	twine upload dist/*
-
-ci:
-	python -m pip install --upgrade pip
-	python -m pip install -r dev-requirements.txt
-	$(MAKE) test
-
-circleci:
-	docker build -f Dockerfile.test .
