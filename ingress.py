@@ -71,7 +71,7 @@ class PyHandler(socketserver.StreamRequestHandler):
         if not self.password:
             return True
 
-        for i in range(3):
+        for _ in range(3):
             self.write('Password: ')
             password = self.rfile.readline().strip().decode('utf-8')
             if password == self.password:
