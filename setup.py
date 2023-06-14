@@ -31,4 +31,16 @@ setup(
     py_modules=['ingress'],
     install_requires=['six'],
     tests_require=['pytest', 'flake8'],
+    classifiers=[
+        'Development Status :: 5 - Production/Stable',
+        'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.9',
+        'Topic :: Software Development :: Debuggers',
+        'Topic :: Terminals :: Telnet',
+    ],
+    python_requires='>=3.9',
+    keywords='shell telnet debug server',
 )
