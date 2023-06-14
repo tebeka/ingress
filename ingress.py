@@ -7,7 +7,7 @@ This one uses only modules found in the standard library.
 """
 
 __author__ = 'Miki Tebeka <miki.tebeka@gmail.com>'
-__version__ = '0.4.0'
+__version__ = '0.4.1'
 
 from contextlib import redirect_stdout, redirect_stderr
 import socketserver
