@@ -91,7 +91,10 @@ class ThreadedServer(socketserver.ThreadingTCPServer):
     allow_reuse_address = True
 
 
-def install(address: str = DEFAULT_ADDRESS, env: dict[str, str] | None = None, password: str = None):
+def install(
+        address: tuple[str, int] = DEFAULT_ADDRESS,
+        env: dict[str, str] | None = None,
+        password: str | None = None):
     """Install TCP handler on address
 
     Parameters
@@ -99,7 +102,7 @@ def install(address: str = DEFAULT_ADDRESS, env: dict[str, str] | None = None, p
     address : tuple
         Address to listen on (host, port)
     env : dict
-        Environment to use when evaulation expression (default to globals)
+        Environment to use when evaluation expression (default to globals)
     password : str
         Login password
     """
