@@ -7,7 +7,7 @@ This one uses only modules found in the standard library.
 """
 
 __author__ = 'Miki Tebeka <miki.tebeka@gmail.com>'
-__version__ = '0.4.1'
+__version__ = '0.5.1'
 
 from contextlib import redirect_stdout, redirect_stderr
 import socketserver
@@ -21,9 +21,9 @@ QUIT = 'quit()'
 
 
 class PyHandler(socketserver.StreamRequestHandler):
-    password = None
-    env = {}
-    prompt = '>>> '
+    password: str | None = None
+    env: dict[str, str] = {}
+    prompt: str = '>>> '
 
     def handle(self):
         env = self.env.copy()
@@ -91,7 +91,7 @@ class ThreadedServer(socketserver.ThreadingTCPServer):
     allow_reuse_address = True
 
 
-def install(address=DEFAULT_ADDRESS, env=None, password=None):
+def install(address: str = DEFAULT_ADDRESS, env: dict[str, str] | None = None, password: str = None):
     """Install TCP handler on address
 
     Parameters
