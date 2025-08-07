@@ -1,4 +1,5 @@
 .pypirc
+.ruff_cache
 README.html
 build
 dist
