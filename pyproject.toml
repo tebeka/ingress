@@ -7,7 +7,7 @@ name = "ingress"
 version = "0.5.0"
 description = "A back door to servers."
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = "MIT"
 license-files = ["LICENSE.txt"]
 authors = [{ name = "Miki Tebeka", email = "miki.tebeka@gmail.com" }]
@@ -16,7 +16,6 @@ dependencies = []
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
