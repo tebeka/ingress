@@ -10,14 +10,16 @@ __author__ = 'Miki Tebeka <miki.tebeka@gmail.com>'
 __version__ = '0.4.1'
 
 from contextlib import redirect_stdout, redirect_stderr
+import logging
 import socketserver
 from threading import Thread
 from traceback import format_exc
-import socket
 
 EOF = chr(4)
 DEFAULT_ADDRESS = ('localhost', 9998)
 QUIT = 'quit()'
+
+logger = logging.getLogger(__name__)
 
 
 class PyHandler(socketserver.StreamRequestHandler):
@@ -27,7 +29,7 @@ class PyHandler(socketserver.StreamRequestHandler):
 
     def handle(self):
         env = self.env.copy()
-        welcome = 'Welcome to ingress (type "{}" to exit)\n'.format(QUIT)
+        welcome = f'Welcome to ingress (type "{QUIT}" to exit)\n'
         self.write(welcome)
 
         if not self.login():
@@ -53,18 +55,17 @@ class PyHandler(socketserver.StreamRequestHandler):
                         self.write(out)
                     except Exception:
                         exec(expr, env)  # nosec
-            except (EOFError, SystemExit, socket.error):
+            except (EOFError, SystemExit, OSError):
                 return
             except Exception:
                 error = format_exc()
-                import sys
-                print(error, file=sys.stderr)
+                logger.error('%s', error)
                 self.write(error)
 
     def finish(self):
         try:
             super().finish()
-        except socket.error:
+        except OSError:
             pass
 
     def login(self):
@@ -99,7 +100,7 @@ def install(address=DEFAULT_ADDRESS, env=None, password=None):
     address : tuple
         Address to listen on (host, port)
     env : dict
-        Environment to use when evaulation expression (default to globals)
+        Environment to use when evaluation expression (default to globals)
     password : str
         Login password
     """

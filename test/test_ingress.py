@@ -1,4 +1,3 @@
-from socket import error as SocketError
 from socket import socket
 from time import sleep, time
 import re
@@ -7,11 +6,9 @@ import ingress
 
 
 def free_port():
-    sock = socket()
-    sock.listen(0)
-    port = sock.getsockname()[1]
-    sock.close()
-    return port
+    with socket() as sock:
+        sock.listen(0)
+        return sock.getsockname()[1]
 
 
 def wait_for_server(port, timeout=10):
@@ -21,7 +18,7 @@ def wait_for_server(port, timeout=10):
         try:
             sock.connect(('localhost', port))
             return sock
-        except SocketError:
+        except OSError:
             sleep(0.1)
 
     return None
