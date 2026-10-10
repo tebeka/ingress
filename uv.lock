@@ -1,5 +1,5 @@
 version = 1
-revision = 2
+revision = 3
 requires-python = ">=3.9"
 
 [[package]]
@@ -40,7 +40,7 @@ wheels = [
 
 [[package]]
 name = "ingress"
-version = "0.4.1"
+version = "0.5.0"
 source = { virtual = "." }
 
 [package.dev-dependencies]
