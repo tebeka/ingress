@@ -9,9 +9,9 @@ This one uses only modules found in the standard library.
 __author__ = 'Miki Tebeka <miki.tebeka@gmail.com>'
 __version__ = '0.5.0'
 
-from contextlib import redirect_stdout, redirect_stderr
 import logging
 import socketserver
+from contextlib import redirect_stderr, redirect_stdout
 from threading import Thread
 from traceback import format_exc
 

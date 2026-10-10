@@ -4,9 +4,10 @@ all:
 	$(error pick a target)
 
 test:
-	uv run ruff check ingress.py test/test_ingress.py
+	uv run ruff check .
+	uv run ruff format --check .
 	uv run bandit ingress.py
-	uv run python -m pytest -v test/test_ingress.py
+	uv run python -m pytest -v tests/test_ingress.py
 
 # Usage: make publish PART=minor (patch, minor or major)
 PART ?= patch

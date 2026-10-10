@@ -1,12 +1,11 @@
 """Small test server"""
 
-import ingress
-
 from argparse import ArgumentParser
 
+import ingress
+
 parser = ArgumentParser(description=__doc__)
-parser.add_argument(
-    '--port', '-p', help='port to listen on', type=int, default=8999)
+parser.add_argument('--port', '-p', help='port to listen on', type=int, default=8999)
 parser.add_argument('--passwd', '-l', help='login password', default='')
 args = parser.parse_args()
 

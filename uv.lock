@@ -41,7 +41,7 @@ wheels = [
 [[package]]
 name = "ingress"
 version = "0.5.0"
-source = { virtual = "." }
+source = { editable = "." }
 
 [package.dev-dependencies]
 dev = [

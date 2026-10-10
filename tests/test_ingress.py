@@ -1,6 +1,6 @@
+import re
 from socket import socket
 from time import sleep, time
-import re
 
 import ingress
 
